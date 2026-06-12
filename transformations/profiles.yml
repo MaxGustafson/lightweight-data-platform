@@ -1,0 +1,13 @@
+transformations:
+  outputs:
+    dev:
+      type: duckdb
+      path: ../databases/orders.duckdb
+      threads: 1
+
+    prod:
+      type: duckdb
+      path: ../databases/orders_prod.duckdb
+      threads: 4
+
+  target: dev
