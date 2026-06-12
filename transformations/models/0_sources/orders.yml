@@ -1,0 +1,81 @@
+version: 2
+
+sources:
+  - name: orders_raw
+    description: Raw orders data landed by dlt into databases/orders.duckdb
+    database: orders
+    schema: orders_raw
+    tables:
+      - name: customers
+        description: Customer master data.
+        columns:
+          - name: customer_id
+            description: Primary key for a customer.
+            data_tests:
+              - unique
+              - not_null
+          - name: country
+            description: ISO country of the customer.
+          - name: signup_date
+            description: Date the customer signed up (string from source).
+
+      - name: orders
+        description: One row per order.
+        columns:
+          - name: order_id
+            description: Primary key for an order.
+            data_tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: FK to customers.customer_id.
+            data_tests:
+              - not_null
+              - relationships:
+                  to: source('orders_raw', 'customers')
+                  field: customer_id
+                  severity: warn
+          - name: order_timestamp
+            description: Timestamp (with timezone) when the order was placed.
+          - name: order_status
+            description: Lifecycle status of the order.
+
+      - name: order_items
+        description: Line items belonging to each order.
+        columns:
+          - name: order_id
+            description: FK to orders.order_id.
+            data_tests:
+              - not_null
+              - relationships:
+                  to: source('orders_raw', 'orders')
+                  field: order_id
+          - name: product_id
+            description: FK to products.product_id.
+            data_tests:
+              - not_null
+              - relationships:
+                  to: source('orders_raw', 'products')
+                  field: product_id
+                  severity: warn
+          - name: quantity
+            description: Units of the product on this line.
+            data_tests:
+              - not_null
+          - name: price_per_unit
+            description: Price charged per unit on this line.
+            data_tests:
+              - not_null
+
+      - name: products
+        description: Product catalog.
+        columns:
+          - name: product_id
+            description: Primary key for a product.
+            data_tests:
+              - unique
+              - not_null
+          - name: category
+            description: Product category.
+          - name: product_name
+            description: Human-readable product name.
