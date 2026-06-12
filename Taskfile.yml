@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  create-db:
+    desc: |
+        Create a DuckDB database in ./databases (pass name via CLI_ARGS, e.g. `task create-db -- mydb`)
+        Usage: task create-db -- mydb → creates databases/mydb.duckdb 
+    vars:
+      DB_NAME: '{{.CLI_ARGS | default "main"}}'
+      DB_PATH: 'databases/{{.DB_NAME}}.duckdb'
+    cmds:
+      - mkdir -p databases
+      - |
+        if [ -f "{{.DB_PATH}}" ]; then
+          printf "Database '%s' already exists. Overwrite? [y/N] " "{{.DB_PATH}}"
+          read -r REPLY
+          case "$REPLY" in
+            [yY]|[yY][eE][sS])
+              rm -f "{{.DB_PATH}}"
+              ;;
+            *)
+              echo "Aborted."
+              exit 1
+              ;;
+          esac
+        fi
+        duckdb "{{.DB_PATH}}" "SELECT 1;" > /dev/null
+        echo "Created {{.DB_PATH}}"
+    silent: true
+
+  ingest-orders:
+    desc: Run the order files ingestion pipeline (ingestion/order_files.py)
+    cmds:
+      - uv run python ingestion/order_files.py
