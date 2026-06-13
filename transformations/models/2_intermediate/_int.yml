@@ -1,0 +1,59 @@
+version: 2
+models:
+  - name: int_order_items
+    description: Order header joined to order lines. Grain is one row per order line.
+    columns:
+      - name: order_item_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: order_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_guid
+              config:
+                severity: warn
+      - name: customer_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - not_null
+      - name: product_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - not_null
+      - name: order_id
+        description: "{{ doc('orders__order_id') }}"
+        data_tests:
+          - not_null
+      - name: product_id
+        description: "{{ doc('order_items__product_id') }}"
+        data_tests:
+          - not_null
+      - name: customer_id
+        description: "{{ doc('orders__customer_id') }}"
+        data_tests:
+          - not_null
+      - name: order_timestamp
+        description: "{{ doc('orders__order_timestamp') }}"
+      - name: order_status
+        description: "{{ doc('orders__order_status') }}"
+      - name: quantity
+        description: "{{ doc('order_items__quantity') }}"
+        data_tests:
+          - not_null
+      - name: price_per_unit
+        description: "{{ doc('order_items__price_per_unit') }}"
+        data_tests:
+          - not_null
+      - name: line_amount
+        description: Quantity multiplied by price_per_unit
+        data_tests:
+          - not_null
+      - name: source_system
+        description: "{{ doc('source_system') }}"
+        data_tests:
+          - not_null

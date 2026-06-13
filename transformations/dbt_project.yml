@@ -35,3 +35,12 @@ models:
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
+    1_staging:
+      +schema: staging
+      +materialized: view
+    2_intermediate:
+      +schema: intermediate
+      +materialized: view
+    3_core:
+      +schema: core
+      +materialized: table
