@@ -1,0 +1,51 @@
+version: 2
+
+sources:
+  - name: orders_raw
+    description: Raw orders data landed by dlt into databases/orders.duckdb
+    database: orders
+    schema: orders_raw
+    tables:
+      - name: customers
+        description: "{{ doc('customers__table') }}"
+        columns:
+          - name: customer_id
+            description: "{{ doc('customers__customer_id') }}"
+          - name: country
+            description: "{{ doc('customers__country') }}"
+          - name: signup_date
+            description: "{{ doc('customers__signup_date') }}"
+
+      - name: orders
+        description: "{{ doc('orders__table') }}"
+        columns:
+          - name: order_id
+            description: "{{ doc('orders__order_id') }}"
+          - name: customer_id
+            description: "{{ doc('orders__customer_id') }}"
+          - name: order_timestamp
+            description: "{{ doc('orders__order_timestamp') }}"
+          - name: order_status
+            description: "{{ doc('orders__order_status') }}"
+
+      - name: order_items
+        description: "{{ doc('order_items__table') }}"
+        columns:
+          - name: order_id
+            description: "{{ doc('order_items__order_id') }}"
+          - name: product_id
+            description: "{{ doc('order_items__product_id') }}"
+          - name: quantity
+            description: "{{ doc('order_items__quantity') }}"
+          - name: price_per_unit
+            description: "{{ doc('order_items__price_per_unit') }}"
+
+      - name: products
+        description: "{{ doc('products__table') }}"
+        columns:
+          - name: product_id
+            description: "{{ doc('products__product_id') }}"
+          - name: category
+            description: "{{ doc('products__category') }}"
+          - name: product_name
+            description: "{{ doc('products__product_name') }}"

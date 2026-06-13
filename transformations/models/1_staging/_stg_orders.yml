@@ -1,0 +1,129 @@
+version: 2
+models:
+  - name: stg_customers
+    description: Staging table for order customers
+    columns:
+      - name:   customer_id
+        description: "{{ doc('customers__customer_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: country
+        description: Country origination of customer
+      - name: signup_date
+        description: "{{ doc('customers__signup_date')}}"
+      - name: source_system
+        description: "{{ doc('source_system') }}"
+        data_tests:
+          - not_null
+      - name: customer_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_orders
+    description: Staging table for orders. ASSUMPTION! ONE CUSTOMER PER ORDER
+    columns:
+      - name: order_id
+        description: "{{ doc('orders__order_id') }}"
+        data_tests:
+          - not_null
+          - unique
+        config:
+          severity: warn
+      - name: customer_id
+        description: "{{ doc('orders__customer_id') }}"
+        data_tests:
+          - not_null
+      - name: order_timestamp
+        description: "{{ doc('orders__order_timestamp') }}"
+      - name: order_status
+        description: "{{ doc('orders__order_status') }}"
+      - name: source_system
+        description: "{{ doc('source_system') }}"
+        data_tests:
+          - not_null
+      - name: order_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_guid
+              config:
+                severity: warn
+
+  - name: stg_order_items
+    description: Staging table for order line items
+    columns:
+      - name: order_id
+        description: "{{ doc('order_items__order_id') }}"
+        data_tests:
+          - not_null
+      - name: product_id
+        description: "{{ doc('order_items__product_id') }}"
+        data_tests:
+          - not_null
+      - name: quantity
+        description: "{{ doc('order_items__quantity') }}"
+        data_tests:
+          - not_null
+      - name: price_per_unit
+        description: "{{ doc('order_items__price_per_unit') }}"
+        data_tests:
+          - not_null
+      - name: source_system
+        description: "{{ doc('source_system') }}"
+        data_tests:
+          - not_null
+      - name: order_item_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: order_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_guid
+              config:
+                severity: warn
+      - name: product_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_products')
+              field: product_guid
+              config:
+                severity: warn
+
+  - name: stg_products
+    description: Staging table for products
+    columns:
+      - name: product_id
+        description: "{{ doc('products__product_id') }}"
+        data_tests:
+          - not_null
+          - unique
+      - name: category
+        description: "{{ doc('products__category') }}"
+      - name: product_name
+        description: "{{ doc('products__product_name') }}"
+      - name: source_system
+        description: "{{ doc('source_system') }}"
+        data_tests:
+          - not_null
+      - name: product_guid
+        description: "{{ doc('guid') }}"
+        data_tests:
+          - unique
+          - not_null

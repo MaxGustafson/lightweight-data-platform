@@ -3,7 +3,7 @@ from pathlib import Path
 import dlt
 from dlt.sources.filesystem import filesystem, read_csv
 
-_BUCKET_URL = f"file://{Path(__file__).resolve().parent.parent / 'input_data'}"
+_BUCKET_URL = f"file://{Path(__file__).resolve().parent.parent.parent / 'input_data'}"
 
 
 def file_resource_pipeline_csv(
