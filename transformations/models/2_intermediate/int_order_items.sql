@@ -25,5 +25,5 @@ select
     oi.source_system,
     oi.quantity * oi.price_per_unit as line_amount
 from order_items as oi
-inner join orders as o
+left join orders as o
     on oi.order_guid = o.order_guid

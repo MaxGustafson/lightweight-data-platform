@@ -20,7 +20,9 @@ models:
       - name: customer_guid
         description: "{{ doc('guid') }}"
         data_tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
       - name: product_guid
         description: "{{ doc('guid') }}"
         data_tests:
@@ -36,7 +38,9 @@ models:
       - name: customer_id
         description: "{{ doc('orders__customer_id') }}"
         data_tests:
-          - not_null
+        - not_null:
+            config:
+              severity: warn
       - name: order_timestamp
         description: "{{ doc('orders__order_timestamp') }}"
       - name: order_status
