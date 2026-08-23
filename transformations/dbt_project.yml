@@ -42,3 +42,6 @@ models:
     3_core:
       +schema: core
       +materialized: table
+    4_products:
+      +schema: products
+      +materialized: table
