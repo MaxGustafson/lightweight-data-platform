@@ -1,6 +1,8 @@
 {#
         Assumption:
         One customer per order -> UK = {order_id}
+
+        TODO: Add validation in raw data?
 #}
 with base as (
     select
