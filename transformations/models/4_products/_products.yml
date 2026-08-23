@@ -1,0 +1,109 @@
+version: 2
+models:
+  - name: orders_enriched
+    description: Order-level fact enriched with customer country. Grain is one row per order.
+    columns:
+      - name: order_id
+        description: "{{ doc('orders__order_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: order_timestamp
+        description: "{{ doc('orders__order_timestamp') }}"
+      - name: customer_id
+        description: "{{ doc('orders__customer_id') }}"
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: country
+        description: Country origination of the order's customer
+        data_tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: order_total_amount
+        description: Sum of line_amount across all items on the order
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+              config:
+                severity: warn
+      - name: number_of_items
+        description: Sum of quantity across all items on the order
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+              config:
+                severity: warn
+
+  - name: category_sales
+    description: Sales aggregated by product category. Grain is one row per category.
+    columns:
+      - name: category
+        description: "{{ doc('products__category') }}"
+        data_tests:
+          - unique
+          - not_null:
+              config:
+                severity: warn
+      - name: total_revenue
+        description: Sum of line_amount across all order items in the category
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+              config:
+                severity: warn
+      - name: total_quantity_sold
+        description: Sum of quantity across all order items in the category
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+              config:
+                severity: warn
+
+  - name: daily_sales
+    description: Daily sales summary. Grain is one row per calendar date.
+    columns:
+      - name: order_date
+        description: Calendar date the orders were placed on
+        data_tests:
+          - unique
+          - not_null:
+              config:
+                severity: warn
+      - name: total_revenue
+        description: Sum of order_total_amount across all orders placed on the date
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+              config:
+                severity: warn
+      - name: total_orders
+        description: Count of distinct orders placed on the date
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+              config:
+                severity: warn
+      - name: average_order_value
+        description: Average order value on a given date.
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+              config:
+                severity: warn
