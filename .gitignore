@@ -9,6 +9,30 @@ wheels/
 # Virtual environments
 .venv
 
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
 #Mocked data storage
 databases/
 input_data/
+
+# dlt
+.dlt/secrets.toml
+.dlt/*.session
+
+# DuckDB
+*.duckdb
+*.duckdb.wal
+
+# Logs
+logs/
+*.log
+
+# Env vars / secrets
+.env
+.env.*
+
+# OS
+.DS_Store
