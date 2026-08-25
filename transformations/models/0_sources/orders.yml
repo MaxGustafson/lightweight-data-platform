@@ -27,6 +27,9 @@ sources:
             description: "{{ doc('orders__order_timestamp') }}"
           - name: order_status
             description: "{{ doc('orders__order_status') }}"
+            data_tests:
+              - accepted_values:
+                  values: ['completed', 'cancelled', 'refunded']
 
       - name: order_items
         description: "{{ doc('order_items__table') }}"

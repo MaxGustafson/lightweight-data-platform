@@ -1,6 +1,11 @@
-## Data model
+## 0. Background
 
-- Fact_Orders
-- Dim_Order_Headers
-- Dim_Products
-- Dim_Customers
+## 1. Data Ingestion
+
+The Ingestion pipeline assumes files are placed on a fileshare/S3-bucket.
+
+## 2. Data Modelling
+
+## 3. Data Transformations
+
+## 4. Data Quality
