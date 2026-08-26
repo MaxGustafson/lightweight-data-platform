@@ -17,15 +17,16 @@ from pathlib import Path
 
 from tools.file_resourses import file_resource_pipeline_csv
 
+_REPO_ROOT: Path = Path(__file__).resolve().parent.parent
 _DOMAIN: str = "orders"
-_DATABASE_PATH: str = "databases/orders.duckdb"
+_DATABASE_PATH: str = str(_REPO_ROOT / "databases/orders.duckdb")
 
 
 def dynamic_order_files_resource_factory():
 
     allow_listed_files: set = {"customers", "order_items", "orders", "products"}
 
-    input_folder: Path = Path("input_data")
+    input_folder: Path = _REPO_ROOT / "input_data"
     errors: list[str] = []
 
     for csv_file in input_folder.glob("*.csv"):

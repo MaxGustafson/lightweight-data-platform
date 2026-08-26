@@ -31,9 +31,10 @@ tasks:
     silent: true
 
   ingest-orders:
-    desc: Run the order files ingestion pipeline (ingestion/order_files.py)
+    desc: Run the order files ingestion pipeline (ingestion/order_files.py). Note that it is expected to fail due to 2 dirty files in input.
+    dir: ingestion
     cmds:
-      - uv run python ingestion/order_files.py
+      - uv run python order_files.py
 
   dbt-build-products:
     desc: Run dbt commands to execute ELT flow and build products

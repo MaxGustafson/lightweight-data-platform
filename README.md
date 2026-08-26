@@ -5,8 +5,7 @@ How to run:
 2. uv sync
 3. task create-db --setup the DuckDB database
 4. task ingest-orders
-5. cd into transformations
-6. uv run dbt run
+5. task dbt-build-products 
 7. duckdb -ui ~/databases/orders.duckdb --to VIEW the output 
 
 ## 1. Data Ingestion
