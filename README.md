@@ -3,10 +3,12 @@
 How to run:
 1. Cd to repo's root folder
 2. uv sync
-3. task create-db --setup the DuckDB database
+Setup the DuckDB database
+3. task create-db 
 4. task ingest-orders
 5. task dbt-build-products 
-7. duckdb -ui ~/databases/orders.duckdb --to VIEW the output 
+View the output 
+6. duckdb -ui databases/orders.duckdb 
 
 ## 1. Data Ingestion
 
