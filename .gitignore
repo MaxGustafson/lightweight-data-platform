@@ -16,7 +16,6 @@ wheels/
 
 #Mocked data storage
 databases/
-input_data/
 
 # dlt
 .dlt/secrets.toml

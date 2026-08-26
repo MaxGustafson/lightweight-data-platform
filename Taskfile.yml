@@ -8,7 +8,7 @@ tasks:
         Create a DuckDB database in ./databases (pass name via CLI_ARGS, e.g. `task create-db -- mydb`)
         Usage: task create-db -- mydb → creates databases/mydb.duckdb 
     vars:
-      DB_NAME: '{{.CLI_ARGS | default "main"}}'
+      DB_NAME: '{{.CLI_ARGS | default "orders"}}'
       DB_PATH: 'databases/{{.DB_NAME}}.duckdb'
     cmds:
       - mkdir -p databases
@@ -34,3 +34,11 @@ tasks:
     desc: Run the order files ingestion pipeline (ingestion/order_files.py)
     cmds:
       - uv run python ingestion/order_files.py
+
+  dbt-build-products:
+    desc: Run dbt commands to execute ELT flow and build products
+    dir: transformations
+    cmds:
+      - uv run dbt deps
+      - uv run dbt run
+      - uv run dbt test
