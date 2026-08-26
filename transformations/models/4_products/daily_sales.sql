@@ -5,6 +5,7 @@ with orders_aggregated as (
         any_value(order_timestamp) as order_timestamp,
         sum(line_amount) as order_total_amount
     from {{ ref('fct_order_items') }}
+    where order_status = 'completed' --Only include orders which provide revenue
     group by order_id
 ),
 
