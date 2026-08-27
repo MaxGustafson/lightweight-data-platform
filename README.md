@@ -20,7 +20,9 @@ The target system is a duckdb local database. It was chosen for its simplicity t
 
 ## 2. Data Modelling
 
-I modeled the core data as a star schema.
+I modeled the core data as a star schema. 
+
+The order data are well suited as a fact-metric. We expect a large volumes of orders landing in our platform with few updates to existing orders. The customer and product data are instead enriching information of the metric and better suited as dimensions.
 
 fct_order_items: A denormalized fact-table holding order and order_header information for simple querying. The main drawback of this approach is if order_items ever becomes incremental. Any update in order_header induces an update for all denormalized order_items in the fact-table. An assumption here is that an order doesn't have an absurd amount of order items. Updating a few rows each time an order changes status is feasible.
 
